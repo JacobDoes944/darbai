@@ -2,8 +2,8 @@
 #include <string>
 using namespace std;
 
-const int maxmok = 100;
-const int maxpaz = 10;
+const int maxmok = 3;
+const int maxpaz = 3;
 
 string bruh[maxmok];
 int pazymiai[maxmok][maxpaz];
@@ -15,16 +15,18 @@ void ivestis() {
         cout << "Mokinio vardas: ";
         string vardas;
         cin >> vardas;
-        if (vardas == "ne1") break;
+        if (vardas == "ne") break;
 
         bruh[kiek] = vardas;
 
         cout << "Kiek pazymiu (1-" << maxpaz << "): ";
-        int kiek;
-        cin >> kiek;
-        if (kiek > maxpaz) kiek = maxpaz;
+        int kiek1;
+        cin >> kiek1;
 
-        for (int j = 0; j < kiek; j++) {
+
+        for (int j = 0; j < maxpaz; j++) pazymiai[kiek][j] = 0;
+
+        for (int j = 0; j < kiek1; j++) {
             cout << "Pazymys #" << j + 1 << ": ";
             cin >> pazymiai[kiek][j];
         }
@@ -40,9 +42,14 @@ void rasymas() {
     }
     for (int i = 0; i < kiek; i++) {
         cout << i + 1 << ". " << bruh[i] << ": ";
-        for (int j = 0; j < maxpaz && pazymiai[i][j] != 0; j++) {
-            cout << pazymiai[i][j] << " ";
+        bool turi = false;
+        for (int j = 0; j < maxpaz; j++) {
+            if (pazymiai[i][j] != 0) {
+                cout << pazymiai[i][j] << " ";
+                turi = true;
+            }
         }
+        if (!turi) cout << "(nera pazymiu)";
         cout << endl;
     }
 }
@@ -63,8 +70,9 @@ void atnaujinti() {
     id--;
 
     cout << bruh[id] << " pazymiai: ";
-    for (int j = 0; j < maxpaz && pazymiai[id][j] != 0; j++) {
-        cout << j + 1 << ":" << pazymiai[id][j] << " ";
+    for (int j = 0; j < maxpaz; j++) {
+        if (pazymiai[id][j] != 0)
+            cout << j + 1 << ":" << pazymiai[id][j] << " ";
     }
     cout << endl;
 
@@ -104,6 +112,11 @@ void pasalinti() {
             pazymiai[i][j] = pazymiai[i + 1][j];
         }
     }
+
+
+    bruh[kiek - 1].clear();
+    for (int j = 0; j < maxpaz; j++) pazymiai[kiek - 1][j] = 0;
+
     kiek--;
 }
 
