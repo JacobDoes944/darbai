@@ -1,0 +1,127 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+void skaiciuoti() {
+    ifstream inputFile("bilietai.txt");
+    ofstream outputFile("naujibilietai.txt");
+
+    if (!inputFile.is_open()) {
+        cout << "Klaida: nepavyko atidaryti failo bilietai.txt!" << endl;
+        return;
+    }
+    if (!outputFile.is_open()) {
+        cout << "Klaida: nepavyko sukurti failo naujibilietai.txt!" << endl;
+        return;
+    }
+
+    double kaina;
+    int parduota;
+    double bendraSuma = 0.0;
+    int visoBilietu = 0;
+
+    cout << fixed << setprecision(2);
+    outputFile << fixed << setprecision(2);
+
+    cout << "\n------------------------------------\n";
+    cout << "Bilietu pardavimu duomenys:\n";
+    outputFile << "------------------------------------\n";
+    outputFile << "Bilietu pardavimu duomenys:\n";
+
+    while (inputFile >> kaina >> parduota) {
+        double suma = kaina * parduota;
+        cout << "Kaina: " << kaina << " EUR, Pardavimai: " << parduota
+             << ", Suma: " << suma << " EUR\n";
+        outputFile << "Kaina: " << kaina << " EUR, Pardavimai: " << parduota
+                   << ", Suma: " << suma << " EUR\n";
+
+        bendraSuma += suma;
+        visoBilietu += parduota;
+    }
+
+    cout << "------------------------------------\n";
+    cout << "Is viso parduota bilietu: " << visoBilietu << endl;
+    cout << "Bendra pardavimu suma: " << bendraSuma << " EUR\n";
+    cout << "------------------------------------\n";
+
+    outputFile << "------------------------------------\n";
+    outputFile << "Is viso parduota bilietu: " << visoBilietu << endl;
+    outputFile << "Bendra pardavimu suma: " << bendraSuma << " EUR\n";
+    outputFile << "------------------------------------\n";
+
+    inputFile.close();
+    outputFile.close();
+
+    cout << "Rezultatai irasyti i faila naujibilietai.txt\n";
+}
+
+
+void atnaujinti() {
+    ifstream inputFile("salary.txt");
+    ofstream outputFile("newsalary.txt");
+
+    if (!inputFile.is_open()) {
+        cout << "Klaida: nepavyko atidaryti failo salary.txt" << endl;
+        return;
+    }
+    if (!outputFile.is_open()) {
+        cout << "Klaida: nepavyko sukurti failo newsalary.txt" << endl;
+        return;
+    }
+
+    string pavarde, vardas;
+    double atlyginimas, procentas;
+
+    cout << fixed << setprecision(2);
+    outputFile << fixed << setprecision(2);
+
+    cout << "\n------------------------------------\n";
+    cout << "Atnaujinti atlyginimai:\n";
+    outputFile << "------------------------------------\n";
+    outputFile << "Atnaujinti atlyginimai:\n";
+
+    while (inputFile >> pavarde >> vardas >> atlyginimas >> procentas) {
+        double naujasAtlyginimas = atlyginimas + (atlyginimas * procentas / 100.0);
+        cout << pavarde << " " << vardas << " " << naujasAtlyginimas << " USD\n";
+        outputFile << pavarde << " " << vardas << " " << naujasAtlyginimas << " USD\n";
+    }
+
+    cout << "------------------------------------\n";
+    cout << "Rezultatai irasyti i faila newsalary.txt\n";
+
+    inputFile.close();
+    outputFile.close();
+}
+
+
+int main() {
+    int pasirinkimas;
+
+    do {
+
+        cout << "1. Skaiciuoti bilietu pardavimu suma\n";
+        cout << "2. Atnaujinti darbuotoju atlyginimus\n";
+        cout << "0. Iseiti\n";
+        cin >> pasirinkimas;
+
+        switch (pasirinkimas) {
+            case 1:
+                skaiciuoti();
+                break;
+            case 2:
+                atnaujinti();
+                break;
+            case 0:
+                cout << "Programa baigta.\n";
+                break;
+            default:
+                cout << "Neteisingas pasirinkimas!\n";
+        }
+
+    } while (pasirinkimas != 0);
+
+    return 0;
+}
